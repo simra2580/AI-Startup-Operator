@@ -1,22 +1,41 @@
 const asyncHandler = require("express-async-handler");
 
-const {
-  analyzeStartupIdea,
-} = require("../services/aiService");
-
 const analyzeIdea = asyncHandler(async (req, res) => {
   const { idea } = req.body;
 
-  if (!idea) {
-    res.status(400);
-    throw new Error("Idea is required");
-  }
+  const mockResponse = `
+Startup Idea Analysis
 
-  const result = await analyzeStartupIdea(idea);
+Idea:
+${idea}
+
+Market Potential:
+High demand among students and job seekers.
+
+Target Audience:
+- College students
+- Fresh graduates
+- Professionals preparing for interviews
+
+Monetization:
+- Subscription plans
+- Resume premium templates
+- AI interview coaching
+
+Suggestions:
+- Add mock interview feature
+- Add LinkedIn optimization
+- Integrate ATS resume scoring
+
+Validation Score: 89%
+`;
 
   res.json({
-    analysis: result,
+    success: true,
+    analysis: mockResponse,
   });
 });
 
-module.exports = { analyzeIdea };
+module.exports = {
+  analyzeIdea,
+};

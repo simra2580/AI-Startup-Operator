@@ -1,0 +1,12 @@
+{
+  "name": "ai-startup",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd frontend && npm run dev",
+    "server": "cd backend && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -12,17 +12,16 @@ import {
   Users, 
   Settings 
 } from "lucide-react";
-
 const navItems = [
   { path: "/dashboard", name: "Dashboard", icon: LayoutDashboard },
-  { path: "/idea-validation", name: "Idea Validation", icon: Lightbulb },
-  { path: "/market-analysis", name: "Market Analysis", icon: BarChart3 },
-  { path: "/product-builder", name: "Product Builder", icon: Package },
-  { path: "/tasks", name: "Task Manager", icon: List },
-  { path: "/analytics", name: "Analytics", icon: Activity },
-  { path: "/ai-assistant", name: "AI Assistant", icon: Bot },
-  { path: "/investors", name: "Investor Hub", icon: Users },
-  { path: "/settings", name: "Settings", icon: Settings },
+  { path: "/dashboard/idea-validation", name: "Idea Validation", icon: Lightbulb },
+  { path: "/dashboard/market-analysis", name: "Market Analysis", icon: BarChart3 },
+  { path: "/dashboard/product-builder", name: "Product Builder", icon: Package },
+  { path: "/dashboard/task-manager", name: "Task Manager", icon: List },
+  { path: "/dashboard/analytics", name: "Analytics", icon: Activity },
+  { path: "/dashboard/ai-assistant", name: "AI Assistant", icon: Bot },
+  { path: "/dashboard/investor-hub", name: "Investor Hub", icon: Users },
+  { path: "/dashboard/settings", name: "Settings", icon: Settings },
 ];
 
 const Sidebar = () => {

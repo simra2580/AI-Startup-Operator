@@ -1,9 +1,41 @@
+import API from "../services/api";
+import { useState } from "react";
 import { motion } from "framer-motion";
+
 import Card from "../components/ui/Card";
 import { Lightbulb, Target, TrendingUp, AlertTriangle, CheckCircle } from "lucide-react";
 
 const IdeaValidation = () => {
   const [idea, setIdea] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("null");
+
+  const analyzeIdea = async () => {
+  try {
+    setLoading(true);
+
+    const res = await API.post("/ai/generate", {
+      prompt: `
+      Analyze this startup idea:
+      ${idea}
+
+      Give:
+      1. Market fit score
+      2. Revenue potential
+      3. Risks
+      4. Monetization strategy
+      5. SWOT analysis
+      `,
+    });
+
+    setResult(res.data.result);
+
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="space-y-8">
@@ -27,12 +59,31 @@ const IdeaValidation = () => {
             placeholder="e.g., AI-powered personal finance coach that analyzes spending patterns and provides real-time advice..."
             className="w-full p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500 resize-vertical min-h-[120px] text-lg"
           />
-          <motion.button 
-            className="btn-primary mt-6 px-12 py-4 ml-auto block"
-            whileHover={{ scale: 1.02 }}
-          >
-            Analyze Idea
-          </motion.button>
+          <motion.button
+  onClick={analyzeIdea}
+  className="btn-primary mt-6 px-12 py-4 ml-auto block"
+  whileHover={{ scale: 1.02 }}
+>
+  {loading ? "Analyzing..." : "Analyze Idea"}
+</motion.button>
+
+{loading ? (
+  <p className="text-white mt-4">
+    Analyzing with IBM Granite AI...
+  </p>
+) : (
+  result && (
+    <Card className="p-6 mt-6">
+      <h3 className="text-2xl font-bold mb-4">
+        AI Analysis
+      </h3>
+
+      <p className="whitespace-pre-wrap text-white/80">
+        {result}
+      </p>
+    </Card>
+  )
+)}
         </div>
       </Card>
 

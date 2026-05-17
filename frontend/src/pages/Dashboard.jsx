@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import StatsCard from "../components/ui/StatsCard";
 import Card from "../components/ui/Card";
+import { useNavigate } from "react-router-dom";
 import { 
   TrendingUp, 
   Users, 
@@ -9,12 +10,15 @@ import {
   Clock,
   Lightbulb
 } from "lucide-react";
-import { 
-  LineChart, 
-  BarChart, 
-  PieChart 
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  BarChart,
+  Bar,
 } from "recharts";
-
 // Dummy data
 const revenueData = [
   { month: "Jan", revenue: 12000 },
