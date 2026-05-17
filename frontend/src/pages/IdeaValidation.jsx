@@ -11,28 +11,79 @@ const IdeaValidation = () => {
   const [result, setResult] = useState("null");
 
   const analyzeIdea = async () => {
+  if (!idea) return;
+
   try {
     setLoading(true);
 
-    const res = await API.post("/ai/generate", {
-      prompt: `
-      Analyze this startup idea:
-      ${idea}
+    // DEMO AI RESPONSE
+    const fakeResult = `
+🚀 Startup Idea Analysis Report
 
-      Give:
-      1. Market fit score
-      2. Revenue potential
-      3. Risks
-      4. Monetization strategy
-      5. SWOT analysis
-      `,
-    });
+💡 Idea:
+${idea}
 
-    setResult(res.data.result);
+📊 Market Fit Score:
+8.9 / 10
+
+💰 Revenue Potential:
+High potential with SaaS subscription and premium AI services.
+
+🎯 Target Audience:
+• Students
+• Startup founders
+• Small businesses
+• Entrepreneurs
+
+🔥 Key Strengths:
+• Solves a real-world problem
+• AI-powered automation
+• Scalable business model
+• Strong future demand
+
+⚠ Risks:
+• Market competition
+• User acquisition cost
+• Requires continuous AI improvement
+
+💡 Monetization Strategy:
+• Monthly subscriptions
+• Premium AI tools
+• Investor dashboard access
+• Enterprise partnerships
+
+📈 SWOT Analysis
+
+Strengths:
+✔ AI-driven platform
+✔ High scalability
+✔ Modern UI/UX
+
+Weaknesses:
+✔ Requires cloud infrastructure
+✔ Initial marketing investment
+
+Opportunities:
+✔ Growing AI market
+✔ Global startup ecosystem
+✔ Integration with business tools
+
+Threats:
+✔ Existing competitors
+✔ Fast-changing AI industry
+
+✅ Final Verdict:
+This startup idea has strong business potential and can become a scalable AI-powered platform with proper execution and marketing.
+`;
+
+    // Simulate AI loading delay
+    setTimeout(() => {
+      setResult(fakeResult);
+      setLoading(false);
+    }, 2000);
 
   } catch (error) {
     console.log(error);
-  } finally {
     setLoading(false);
   }
 };

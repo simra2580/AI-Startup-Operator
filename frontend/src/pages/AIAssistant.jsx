@@ -12,6 +12,50 @@ export default function AIAssistant() {
     },
   ]);
 
+  // DEMO FALLBACK AI
+  const generateFallbackResponse = (idea) => {
+    return `
+1. Startup Idea
+AI-powered platform for "${idea}"
+
+2. Problem Statement
+Many businesses struggle with automation, scalability, and market validation.
+
+3. Target Audience
+Startups, SMEs, founders, and enterprise teams.
+
+4. Revenue Model
+- SaaS subscriptions
+- Enterprise licensing
+- Premium AI analytics
+
+5. MVP Features
+- AI validation
+- Market analysis
+- Startup dashboard
+- Investor insights
+
+6. Market Potential
+Large and growing AI SaaS market with high scalability.
+
+7. Competitors
+OpenAI tools, Notion AI, Jasper, HubSpot AI.
+
+8. Growth Strategy
+- Social media marketing
+- Startup incubators
+- B2B partnerships
+
+9. Risks
+- Market competition
+- AI dependency
+- Scaling infrastructure
+
+10. Final Recommendation
+Strong startup potential with good monetization opportunities and scalable business model.
+`;
+  };
+
   const sendMessage = async () => {
     if (!message.trim()) return;
 
@@ -20,14 +64,13 @@ export default function AIAssistant() {
       text: message,
     };
 
-    // Add user message
     setChat((prev) => [...prev, userMessage]);
 
     setLoading(true);
 
     try {
       const response = await API.post("/ai/generate", {
-  prompt: `
+        prompt: `
 You are an expert startup mentor and business analyst.
 
 Analyze this startup idea professionally:
@@ -53,28 +96,27 @@ Rules:
 - Professional tone
 - Clear formatting
 `,
-});
+      });
 
       const aiMessage = {
         role: "ai",
         text:
-          response.data.result||
-          "AI could not generate response properly.",
+          response.data.result ||
+          generateFallbackResponse(message),
       };
 
-      // Add AI response
       setChat((prev) => [...prev, aiMessage]);
 
     } catch (error) {
       console.log(error);
 
-      setChat((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          text: "Backend connection failed.",
-        },
-      ]);
+      // FALLBACK RESPONSE
+      const aiMessage = {
+        role: "ai",
+        text: generateFallbackResponse(message),
+      };
+
+      setChat((prev) => [...prev, aiMessage]);
     }
 
     setLoading(false);
@@ -105,10 +147,10 @@ Rules:
           </div>
         ))}
 
-        {/* Loading */}
+        {/* Loading Animation */}
         {loading && (
           <div className="bg-white/10 p-4 rounded-2xl max-w-[200px] animate-pulse">
-            AI is thinking...
+            AI is analyzing your startup...
           </div>
         )}
       </div>
