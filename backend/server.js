@@ -1,31 +1,36 @@
 const express = require("express");
 const dotenv = require("dotenv");
-
-// Load environment variables FIRST
-dotenv.config();
-
 const cors = require("cors");
 const connectDB = require("./config/db");
+
+dotenv.config();
 
 const authRoutes = require("./routes/authRoutes");
 const startupRoutes = require("./routes/startupRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 
-// Connect database
-connectDB();
-
 const app = express();
 
-// Middleware
-app.use(cors());
+// CONNECT DATABASE
+connectDB();
+
+// CORS FIX
+app.use(
+  cors({
+    origin: "https://ai-startup-operator.vercel.app",
+    credentials: true,
+  })
+);
+
+// MIDDLEWARE
 app.use(express.json());
 
-// Routes
+// ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/startups", startupRoutes);
 app.use("/api/ai", aiRoutes);
 
-// TEST API ROUTE FOR FRONTEND CONNECTION
+// TEST ROUTE
 app.get("/api/test", (req, res) => {
   res.json({
     success: true,
@@ -33,12 +38,11 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-// Home route
+// HOME ROUTE
 app.get("/", (req, res) => {
   res.send("AI Startup Operator Backend Running");
 });
 
-// Server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
